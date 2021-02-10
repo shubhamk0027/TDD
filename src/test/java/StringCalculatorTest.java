@@ -17,9 +17,20 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void addTwoStringTest(){
+    public void addTwoStringsSeparatedByCommaTest(){
         StringCalculator calculator = new StringCalculator();
         assertEquals(calculator.Add("1,2"),3);
     }
 
+    @Test
+    public void addTwoStringsSeparatedByNewLine(){
+        StringCalculator calculator = new StringCalculator();
+        assertEquals(calculator.Add("1\n2"),3);
+    }
+
+    @Test
+    public void addMoreThanTwoStringsSeparatedByNewLineOrComma(){
+        StringCalculator calculator = new StringCalculator();
+        assertEquals(calculator.Add("1\n2,3,4,\n5"),15);
+    }
 }
