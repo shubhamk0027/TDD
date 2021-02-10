@@ -1,5 +1,5 @@
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StringCalculator {
 
@@ -13,25 +13,51 @@ public class StringCalculator {
         return timesAddInvoked;
     }
 
+    private boolean isSpecialCharacter(char c) {
+        if (c>='0' && c<='9') return false;
+        if (c>='a' && c<='z') return false;
+        return c < 'A' || c > 'Z';
+    }
     /**
      * Assumes the sum of the numbers lie in the range of int
      * Assumes all the inputs provided are valid
+     * Ignores numbers greater than 1000
      * By default separates the numbers by comma or new line character
-     * Supports Custom Delimiter by providing input numbers string as “//[delimiter]\n[numbers…]”
+     * Supports Custom Delimiter by providing input numbers string as
+     * “//[delimiter]\n[numbers…]” OR “//[delim1][delim2]\n” OR //d\n[numbers…] where d is a delimiter character
      * @param numbers is a string of positive integers numbers separated by comma or \n
      * @return the sum of the numbers
      */
     public int Add(String numbers){
+
         timesAddInvoked++;
+
         if(numbers.length()==0) {
             return 0;
         }
 
         String[] stringNumbers;
         if(numbers.startsWith("//")){
-            int index = numbers.indexOf('\n');
-            String newDelimiter = numbers.substring(2,index);
-            stringNumbers = numbers.substring(index+1).split(newDelimiter);
+            if(numbers.charAt(2)!='['){
+                // single character delimiter
+                char delimiterCharacter = numbers.charAt(2);
+                stringNumbers = numbers.substring(4).split(String.valueOf(delimiterCharacter));
+            }else{
+                // multiple character delimiter of multiple length
+                int till = numbers.indexOf("]\n");
+                String[] delims = numbers.substring(3,till).split("\\]\\[");
+                StringBuilder stringBuilder = new StringBuilder();
+                for(int i=0;i<delims.length;i++){
+                    if(i>0) stringBuilder.append("|");
+                    for(int j=0;j<delims[i].length();j++){
+                        if(isSpecialCharacter(delims[i].charAt(j))){
+                            stringBuilder.append("\\");
+                            stringBuilder.append(delims[i].charAt(j));
+                        }
+                    }
+                }
+                stringNumbers = numbers.substring(till+2).split(stringBuilder.toString());
+            }
         }else{
             stringNumbers = numbers.split("[,\n]");
         }

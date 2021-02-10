@@ -37,15 +37,9 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void customDelimiterTest1(){
+    public void customSingleCharDelimiterTest(){
         StringCalculator calculator= new StringCalculator();
         assertEquals(calculator.Add("//;\n1;2;3"),6);
-    }
-
-    @Test
-    public void customDelimiterTest2(){
-        StringCalculator calculator= new StringCalculator();
-        assertEquals(calculator.Add("//__\n1__2__3"),6);
     }
 
     @Rule
@@ -72,4 +66,23 @@ public class StringCalculatorTest {
         StringCalculator calculator= new StringCalculator();
         assertEquals(calculator.Add("1,10001,2"),3);
     }
+
+    @Test
+    public void customMultipleCharsDelimiterTest(){
+        StringCalculator calculator= new StringCalculator();
+        assertEquals(calculator.Add("//[*][%]\n1*2%3"),6);
+    }
+
+    @Test
+    public void customSingleStringDelimiterTest(){
+        StringCalculator calculator= new StringCalculator();
+        assertEquals(calculator.Add("//[***]\n1***2***3"),6);
+    }
+
+    @Test
+    public void customMultipleStringsDelimiterTest(){
+        StringCalculator calculator= new StringCalculator();
+        assertEquals(calculator.Add("//[**][%%]\n1**2%%3"),6);
+    }
+
 }
