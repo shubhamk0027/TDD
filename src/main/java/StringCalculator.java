@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class StringCalculator {
 
@@ -18,17 +17,19 @@ public class StringCalculator {
         if (c>='a' && c<='z') return false;
         return c < 'A' || c > 'Z';
     }
+
+
     /**
-     * Assumes the sum of the numbers lie in the range of int
      * Assumes all the inputs provided are valid
      * Ignores numbers greater than 1000
      * By default separates the numbers by comma or new line character
-     * Supports Custom Delimiter by providing input numbers string as
-     * “//[delimiter]\n[numbers…]” OR “//[delim1][delim2]\n” OR //d\n[numbers…] where d is a delimiter character
-     * @param numbers is a string of positive integers numbers separated by comma or \n
+     * Supports Custom Delimiter by providing input numbers string as -
+     * “//[delimiter]\n[numbers…]” OR “//[delim1][delim2]\n[numbers...]” OR //d\n[numbers…] where d is a delimiter character
+     * @param numbers is a string of positive integers numbers separated by delimiters
      * @return the sum of the numbers
+     * @throws IllegalArgumentException when negative numbers are passed
      */
-    public int Add(String numbers){
+    public int Add(String numbers) throws IllegalArgumentException{
 
         timesAddInvoked++;
 
@@ -45,14 +46,14 @@ public class StringCalculator {
             }else{
                 // multiple character delimiter of multiple length
                 int till = numbers.indexOf("]\n");
-                String[] delims = numbers.substring(3,till).split("\\]\\[");
+                String[] delimiters = numbers.substring(3,till).split("\\]\\[");
                 StringBuilder stringBuilder = new StringBuilder();
-                for(int i=0;i<delims.length;i++){
+                for(int i=0;i<delimiters.length;i++){
                     if(i>0) stringBuilder.append("|");
-                    for(int j=0;j<delims[i].length();j++){
-                        if(isSpecialCharacter(delims[i].charAt(j))){
+                    for(int j=0;j<delimiters[i].length();j++){
+                        if(isSpecialCharacter(delimiters[i].charAt(j))){
                             stringBuilder.append("\\");
-                            stringBuilder.append(delims[i].charAt(j));
+                            stringBuilder.append(delimiters[i].charAt(j));
                         }
                     }
                 }
@@ -77,7 +78,6 @@ public class StringCalculator {
         }
         return sum;
     }
-
 
     public static void main(String[] args){
         System.out.println("String Calculator Running...");
