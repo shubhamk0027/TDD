@@ -58,4 +58,18 @@ public class StringCalculatorTest {
         StringCalculator calculator= new StringCalculator();
         calculator.Add("1,2\n3,-4\n-5,-6");
     }
+
+    @Test
+    public void counterTest(){
+        StringCalculator calculator= new StringCalculator();
+        calculator.Add("1");
+        calculator.Add("2");
+        assertEquals(calculator.GetCalledCount(),2);
+    }
+
+    @Test
+    public void bigNumberTest(){
+        StringCalculator calculator= new StringCalculator();
+        assertEquals(calculator.Add("1,10001,2"),3);
+    }
 }
